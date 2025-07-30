@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+
+.control-input {
+    @apply w-full px-[10px] pr-[40px] py-[8px] mt-2 mb-2 box-border border border-gray-300 rounded-md shadow-sm;
+}
+
+.control-input::placeholder {
+    transition: all 0.3s ease;
+    color: #aaa;
+}
+
+.control-input:focus::placeholder {
+    transform: translateY(-10px);
+    font-size: 10px;
+}
+
+.control-input:focus {
+    border: 1px solid rgb(69, 65, 65);
+    outline: none;
+}

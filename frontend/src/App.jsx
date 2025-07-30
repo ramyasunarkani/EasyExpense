@@ -1,15 +1,14 @@
 
-import { Routes } from 'react-router'
+import { Route, Routes } from 'react-router'
 import './App.css'
+import SignUp from './components/Authentication/SignUp'
 
 function App() {
 
   return (
-    <>
-     <Routes>
-      
-     </Routes>
-    </>
+    <Routes>
+      <Route path='signup' element={<SignUp/>}/>
+    </Routes>
   )
 }
 
