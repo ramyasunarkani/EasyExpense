@@ -30,6 +30,28 @@ const signup = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ where: { email } });
+    if (!existingUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (existingUser.password !== password) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    res.status(200).json({ message: 'User login successful' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Login failed', error: err.message });
+  }
+};
+
+
 module.exports={
     signup,
+    login
 }

@@ -21,6 +21,7 @@ export const signUpUser = ({ name, email, password, navigate }) => {
   };
 };
 
+
 export const loginUser = ({ email, password, navigate }) => {
   return async (dispatch) => {
     try {
@@ -32,7 +33,7 @@ export const loginUser = ({ email, password, navigate }) => {
         }
       );
 
-      alert(response.data.message || "Account created successfully!");
+      alert(response.data.message || "Login successful!");
       navigate('/home');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Something went wrong!';
