@@ -2,6 +2,7 @@ const express=require('express');
 const db=require('./util/db-connection');
 const app=express();
 const userModel=require('./models/userModel')
+const expensesModel=require('./models/expenseModel')
 const userRoutes=require('./routes/userRoute');
 const cors = require('cors');
 
