@@ -1,9 +1,11 @@
 const express=require('express');
 const db=require('./util/db-connection');
 const app=express();
-const userModel=require('./models/userModel')
-const expensesModel=require('./models/expenseModel')
+require('./models')
 const userRoutes=require('./routes/userRoute');
+const expenseRoutes=require('./routes/expensesRoutes')
+const paymentRoutes = require('./routes/paymentRoutes'); 
+
 const cors = require('cors');
 
 
@@ -16,8 +18,11 @@ app.get('/',(req,res)=>{
     res.send('app started');
 })
 app.use('/user',userRoutes);
+app.use('/expenses',expenseRoutes)
+app.use('/payment', paymentRoutes);
 
-db.sync().then(() => {
+
+db.sync({force:true}).then(() => {
 
     
     app.listen(3000,()=>{

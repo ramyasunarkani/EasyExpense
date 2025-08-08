@@ -1,15 +1,12 @@
 import axios from 'axios';
+import { authActions } from './auth-reducer';
 
 export const signUpUser = ({ name, email, password, navigate }) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
         'http://localhost:3000/user/signup',
-        {
-          name,
-          email,
-          password,
-        }
+        { name, email, password }
       );
 
       alert(response.data.message || "Account created successfully!");
@@ -21,23 +18,30 @@ export const signUpUser = ({ name, email, password, navigate }) => {
   };
 };
 
-
 export const loginUser = ({ email, password, navigate }) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
         'http://localhost:3000/user/login',
-        {
-          email,
-          password,
-        }
+        { email, password }
       );
+      
+      const token = response.data.token;
 
-      alert(response.data.message || "Login successful!");
+      
+      dispatch(authActions.login(token));
+
       navigate('/home');
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Something went wrong!';
+      const errorMessage = err.response?.data?.message || 'Something went wrong!'||err;
       alert(`Error: ${errorMessage}`);
     }
+  };
+};
+
+export const logoutUser = (navigate) => {
+  return (dispatch) => {
+    dispatch(authActions.logout());
+    if (navigate) navigate('/login');
   };
 };

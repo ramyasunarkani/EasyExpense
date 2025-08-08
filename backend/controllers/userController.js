@@ -1,5 +1,11 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const jwt=require('jsonwebtoken')
+
+ 
+function generateAccessToken(id,name){
+  return jwt.sign({userID:id,name:name},'secretkey');
+}
 
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -25,7 +31,6 @@ const signup = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
     return res.status(500).json({
       message: 'Failed to create user',
       error: err.message,
@@ -44,15 +49,15 @@ const login = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, existingUser.password);
+    console.log('user',existingUser)
 
     if (isMatch) {
-      return res.status(200).json({ message: 'Login successfully' });
+      return res.status(200).json({ message: 'Login successfully' ,token: generateAccessToken(existingUser.dataValues.id, existingUser.dataValues.name)});
     } else {
       return res.status(400).json({ message: 'Incorrect password' });
     }
 
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: 'Login failed', error: err.message });
   }
 };

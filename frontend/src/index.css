@@ -2,7 +2,7 @@
 
 
 .control-input {
-    @apply w-full px-[10px] pr-[40px] py-[8px] mt-2 mb-2 box-border border border-gray-300 rounded-md shadow-sm;
+    @apply w-full px-[8px] pr-[20px] py-[6px] mt-2 mb-2 box-border border border-gray-300 rounded-md shadow-sm;
 }
 
 .control-input::placeholder {
@@ -18,4 +18,4 @@
 .control-input:focus {
     border: 1px solid rgb(69, 65, 65);
     outline: none;
-}
+} 
