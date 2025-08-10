@@ -1,12 +1,15 @@
 const express = require("express");
-const { getPaymentStatus } = require("../controllers/paymentController");
 const router = express.Router();
+const Authenticate=require('../middlewares/auth');
+
 const {
   processPayment,
+  getPaymentStatus,
 } = require("../controllers/paymentController");
 
-router.post("/pay", processPayment);
-router.get("/payment-status/:orderId", getPaymentStatus);
+router.post("/pay",Authenticate.Authenticate, processPayment);
+router.get("/payment-status/:orderId",Authenticate.Authenticate, getPaymentStatus);
+
 
 
 

@@ -1,53 +1,40 @@
-import { load } from "@cashfreepayments/cashfree-js";
+import React from "react";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux"; 
+import { buyPremium } from "../Store/payment-actions";
 
 const PremiumButton = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isPremium = useSelector((state) => state.auth.isPremium);
 
-  const handleBuyPremium = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/payment/pay", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to initiate payment");
-      }
-
-      const { paymentSessionId, orderId } = data;
-
-      const cashfree = await load({ mode: "sandbox" }); // Use "production" in live
-
-      await cashfree.checkout({
-        paymentSessionId,
-        redirect: false,
-        onSuccess: (data) => {
-          console.log("Payment Success:", data);
-          navigate(`/payment-status/${orderId}`);
-        },
-        onFailure: (data) => {
-          console.log("Payment Failed:", data);
-          navigate(`/payment-status/${orderId}`);
-        },
-      });
-    } catch (err) {
-      console.error("Payment initiation error:", err);
-      alert("Something went wrong. Please try again.");
-    }
+  const handleBuyPremium = () => {
+    dispatch(buyPremium(navigate));
   };
 
+  const showLeaderBoard=()=>{
+    navigate('/home/leaderboard')
+
+  }
+
   return (
-    <button
-      onClick={handleBuyPremium}
-      className="fixed top-4 right-4 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200"
-    >
-      Buy Premium Membership
-    </button>
+    <>
+      {isPremium ? (
+       <>
+        <p className="text-blue-400 italic">Thank You For being a Premium Member</p>
+        <button 
+        className="border-0 cursor-pointer text-white bg-green-400 px-4 py-1"
+        onClick={showLeaderBoard}
+        >show leaderboard</button> </>
+      ) : (
+        <button
+          onClick={handleBuyPremium}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+        >
+          Buy Premium Membership
+        </button>
+      )}
+    </>
   );
 };
 

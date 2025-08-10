@@ -26,18 +26,18 @@ export const loginUser = ({ email, password, navigate }) => {
         { email, password }
       );
       
-      const token = response.data.token;
+      const { token, name, isPremium } = response.data.user;
 
-      
-      dispatch(authActions.login(token));
+      dispatch(authActions.login({ token, name, isPremium }));
 
       navigate('/home');
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Something went wrong!'||err;
+      const errorMessage = err.response?.data?.message || 'Something went wrong!';
       alert(`Error: ${errorMessage}`);
     }
   };
 };
+
 
 export const logoutUser = (navigate) => {
   return (dispatch) => {

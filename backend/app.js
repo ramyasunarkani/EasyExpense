@@ -22,7 +22,7 @@ app.use('/expenses',expenseRoutes)
 app.use('/payment', paymentRoutes);
 
 
-db.sync({force:true}).then(() => {
+db.sync().then(() => {
 
     
     app.listen(3000,()=>{

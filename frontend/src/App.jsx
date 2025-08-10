@@ -7,7 +7,9 @@ import Home from './pages/Home'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchAllExpenses } from './Store/expense-actions'
-import PremiumStatus from './components/PremiumStatus'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LeaderBoard from './components/LeaderBoard'
 
 function App() {
   const dispatch=useDispatch();
@@ -25,14 +27,19 @@ useEffect(() => {
   }, [isLoggedIn]);
 
   return (
-    <Routes>
-      <Route path='/' element={<Navigate to='/login'/>}/>
-      <Route path='signup' element={<PublicRoute element={<SignUp/>}/>}/>
-      <Route path='login' element={<PublicRoute element={<Login/>}/>}/>
-      <Route path='home' element={<PrivateRoute element={<Home/>}/>}/>
-      <Route path="/payment-status/:orderId" element={<PremiumStatus />} />
+       <>
+          <ToastContainer position="top-right" autoClose={3000} />
+          <Routes>
 
-    </Routes>
+            <Route path='/' element={<Navigate to='/login'/>}/>
+            <Route path='signup' element={<PublicRoute element={<SignUp/>}/>}/>
+            <Route path='login' element={<PublicRoute element={<Login/>}/>}/>
+            <Route path='home' element={<PrivateRoute element={<Home/>}/>}>
+              <Route path='leaderboard' element={<LeaderBoard/>}/>
+            </Route>
+
+          </Routes>
+       </>
   )
 }
 

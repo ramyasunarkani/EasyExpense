@@ -6,7 +6,7 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     expenses:expenseReducer
-  },
+    },
 });
 
 export default store;

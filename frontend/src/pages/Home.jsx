@@ -1,15 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ExpenseForm from '../components/ExpenseForm'
 import Expenses from '../components/AllExpenses/Expenses'
-import PremiumButton from '../components/PremiumButton'
+import Header from '../components/Header'
+import { useDispatch } from 'react-redux'
+import { fetchPaymentStatus } from '../Store/payment-actions'
+import { Outlet, useLocation } from 'react-router'
 
 const Home = () => {
+  const dispatch=useDispatch()
+    const location = useLocation();
+
+  useEffect(() => {
+  const orderId = localStorage.getItem("lastOrderId");
+  if (orderId) {
+    dispatch(fetchPaymentStatus(orderId)).finally(() => {
+      localStorage.removeItem("lastOrderId");
+    });
+  }
+}, [dispatch]);
+  const isMainHome = location.pathname === "/home";
+
+
   return (
     <>
-    <header
-    className="flex justify-center px-2 py-2"><PremiumButton/></header>
-    <Expenses/>
-      <ExpenseForm/>
+      {isMainHome && (
+        <>
+          <Header />
+          <Expenses />
+          <ExpenseForm />
+        </>
+      )}
+      <Outlet />
     </>
   )
 }

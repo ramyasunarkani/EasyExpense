@@ -50,9 +50,15 @@ const login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, existingUser.password);
     console.log('user',existingUser)
+    const token= generateAccessToken(existingUser.dataValues.id, existingUser.dataValues.name)
 
     if (isMatch) {
-      return res.status(200).json({ message: 'Login successfully' ,token: generateAccessToken(existingUser.dataValues.id, existingUser.dataValues.name)});
+      return res.status(200).json({ message: 'Login successfully' ,
+        user:{
+        token,
+        name: existingUser.dataValues.name,
+        isPremium:existingUser.dataValues.isPremium
+          }});
     } else {
       return res.status(400).json({ message: 'Incorrect password' });
     }
