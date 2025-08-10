@@ -28,6 +28,11 @@ const User = db.define('User', {
     allowNull: false,
     defaultValue: false, 
   },
+  totalExpenses:{
+    type:DataTypes.INTEGER,
+    defaultValue:0,
+
+  }
 });
 
 module.exports = User;

@@ -77,7 +77,6 @@ const ExpenseForm = () => {
             <option value="">Select category</option>
             <option value="Food">Food</option>
             <option value="Petrol">Petrol</option>
-            <option value="Salary">Salary</option>
             <option value="Entertainment">Entertainment</option>
             <option value="Health">Health</option>
             <option value="Other">Other</option>

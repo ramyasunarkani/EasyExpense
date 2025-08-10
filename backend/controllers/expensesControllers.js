@@ -1,5 +1,6 @@
 const { where } = require('sequelize');
 const expenseModel = require('../models/expenseModel');
+const { User } = require('../models');
 
 const AddExpense = async (req, res) => {
   const { category, amount, description } = req.body;
@@ -10,6 +11,10 @@ const AddExpense = async (req, res) => {
       description,
       UserId:req.user.id
     });
+    await User.increment('totalExpenses',{
+      by:amount,
+      where:{id:req.user.id}
+    })
     return res.status(200).json({
       expense: newExpense,
       message: "success"
@@ -22,16 +27,26 @@ const AddExpense = async (req, res) => {
 const DeleteExpense = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedCount = await expenseModel.destroy({
-      where: { id,UserId:req.user.id },
+    const expenseToDelete = await expenseModel.findOne({
+      where: { id, UserId: req.user.id }
     });
 
-    if (deletedCount === 0) {
+    if (!expenseToDelete) {
       return res.status(404).json({ message: "Expense not found" });
     }
 
+    await expenseModel.destroy({
+      where: { id, UserId: req.user.id }
+    });
+
+    await User.decrement('totalExpenses', {
+      by: expenseToDelete.amount,
+      where: { id: req.user.id }
+    });
+
     res.status(200).json({ message: "Expense deleted successfully" });
   } catch (error) {
+    console.error("Error deleting expense:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

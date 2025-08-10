@@ -5,6 +5,7 @@ require('./models')
 const userRoutes=require('./routes/userRoute');
 const expenseRoutes=require('./routes/expensesRoutes')
 const paymentRoutes = require('./routes/paymentRoutes'); 
+const premiumRoutes=require('./routes/premiumRoutes');
 
 const cors = require('cors');
 
@@ -20,6 +21,7 @@ app.get('/',(req,res)=>{
 app.use('/user',userRoutes);
 app.use('/expenses',expenseRoutes)
 app.use('/payment', paymentRoutes);
+app.use('/premium',premiumRoutes);
 
 
 db.sync().then(() => {
