@@ -45,3 +45,17 @@ export const logoutUser = (navigate) => {
     if (navigate) navigate('/login');
   };
 };
+
+export const userForgotPassword=(email)=>{
+  return async (dispatch)=>{
+    try {
+      const res=await axios.post('http://localhost:3000/password/forgotpassword ',{email});
+      console.log(res);
+    } catch (error) {
+      console.error(error,'unable send link')
+      
+    }
+
+
+  }
+}

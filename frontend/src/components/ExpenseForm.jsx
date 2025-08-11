@@ -54,7 +54,7 @@ const ExpenseForm = () => {
         className={`
           fixed  w-screen 
           bg-[#f0f8ff] p-5
-          shadow-[0_-5px_10px_rgba(0,0,0,0.2)]
+          shadow-2xs
           transition-[bottom] duration-300 ease-in-out
           ${isActive ? 'bottom-0' : '-bottom-full'}
         `}

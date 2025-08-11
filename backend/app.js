@@ -6,6 +6,7 @@ const userRoutes=require('./routes/userRoute');
 const expenseRoutes=require('./routes/expensesRoutes')
 const paymentRoutes = require('./routes/paymentRoutes'); 
 const premiumRoutes=require('./routes/premiumRoutes');
+const pasRoutes=require('./routes/passRoutes')
 
 const cors = require('cors');
 
@@ -22,6 +23,7 @@ app.use('/user',userRoutes);
 app.use('/expenses',expenseRoutes)
 app.use('/payment', paymentRoutes);
 app.use('/premium',premiumRoutes);
+app.use('/password',pasRoutes);
 
 
 db.sync().then(() => {

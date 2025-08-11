@@ -65,6 +65,10 @@ const Login = () => {
             Login
           </button>
         </form>
+        <div 
+        className='underline cursor-pointer mb-1'
+        onClick={()=>navigate('/forgot-password')}
+        >Forgot Password?</div>
         <button
           className='w-full p-[6px] border-none rounded-[3px] mt-3 bg-green-200 cursor-pointer text-[1rem] box-border hover:bg-green-300'
           onClick={() => navigate('/signup')}
