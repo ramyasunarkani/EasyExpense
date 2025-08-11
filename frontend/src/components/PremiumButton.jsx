@@ -25,7 +25,13 @@ const PremiumButton = () => {
         <button 
         className="border-0 cursor-pointer text-white bg-green-400 px-4 py-1"
         onClick={showLeaderBoard}
-        >show leaderboard</button> </>
+        >show leaderboard</button>
+        <button 
+        className="border-0 cursor-pointer text-white bg-green-400 px-4 py-1 ml-3"
+       Report Generate
+        >show leaderboard</button>
+        
+         </>
       ) : (
         <button
           onClick={handleBuyPremium}

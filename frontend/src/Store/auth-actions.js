@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { authActions } from './auth-reducer';
+import { toast } from 'react-toastify';
+
 
 export const signUpUser = ({ name, email, password, navigate }) => {
   return async (dispatch) => {
@@ -59,3 +61,25 @@ export const userForgotPassword=(email)=>{
 
   }
 }
+
+
+export const updatePasswordAction = (resetpasswordid, newpassword, navigate) => {
+  return async (dispatch) => {
+    if (!newpassword.trim()) {
+      toast.error("Password cannot be empty");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/password/updatepassword/${resetpasswordid}`,
+        { newpassword }
+      );
+      toast.success(response.data.success || "Password updated successfully!");
+      setTimeout(() => navigate('/login'), 2000);
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || "Failed to update password.";
+      toast.error(errorMessage);
+    }
+  };
+};

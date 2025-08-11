@@ -1,7 +1,12 @@
-const exppress=require('express');
-const { sendForgotPasswordEmail } = require('../controllers/passControllers');
+const express = require('express');
+const resetpasswordController = require('../controllers/passControllers');
 
-const router=exppress.Router();
-router.post('/forgotpassword',sendForgotPasswordEmail);
+const router = express.Router();
 
-module.exports=router;
+router.post('/updatepassword/:resetpasswordid', resetpasswordController.updatepassword);
+
+router.get('/resetpassword/:id', resetpasswordController.resetpassword);
+
+router.post('/forgotpassword', resetpasswordController.forgotpassword);
+
+module.exports = router;

@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LeaderBoard from './components/LeaderBoard'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import UpdatePassword from './pages/UpdatePassword'
 
 function App() {
   const dispatch=useDispatch();
@@ -36,6 +37,8 @@ useEffect(() => {
             <Route path='signup' element={<PublicRoute element={<SignUp/>}/>}/>
             <Route path='login' element={<PublicRoute element={<Login/>}/>}/>
             <Route path='/forgot-password' element={<PublicRoute element={<ForgotPasswordPage/>}/>}/>
+            <Route path="/update-password/:resetpasswordid" element={<UpdatePassword />} />
+
             <Route path='home' element={<PrivateRoute element={<Home/>}/>}>
               <Route path='leaderboard' element={<LeaderBoard/>}/>
             </Route>
