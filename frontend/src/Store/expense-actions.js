@@ -35,19 +35,18 @@ export function deleteExpense(id){
     }
 
 }
-export function fetchAllExpenses(){
+export function fetchAllExpenses(page = 1, limit = 6) {
+  return async (dispatch, getState) => {
+    try {
+      const token = getState().auth.token;
+      const response = await axios.get(
+        `${expenseURL}/all?page=${page}&limit=${limit}`,
+        { headers: { "Authorization": token } }
+      );
 
-    return async(dispatch,getState)=>{
-        try {
-            const token = getState().auth.token;
-            const response=await axios.get(`${expenseURL}/all`,{headers:{"Authorization":token}});
-            dispatch(ExpenseActions.fetchAll(response.data))
-            console.log(response.data);
-            
-        } catch (error) {
-            console.log('unable fetches expense',error);
-            
-        }
+      dispatch(ExpenseActions.fetchAll(response.data));
+    } catch (error) {
+      console.log('Unable to fetch expenses', error);
     }
-
+  };
 }

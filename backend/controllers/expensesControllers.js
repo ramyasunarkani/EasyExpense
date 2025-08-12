@@ -67,15 +67,31 @@ const DeleteExpense = async (req, res) => {
 };
 
  
-const AllExpenses=async(req,res)=>{
+const AllExpenses = async (req, res) => {
   try {
-    const allExpenses=await expenseModel.findAll({where:{userId:req.user.id}});
-  return res.status(200).json(allExpenses);
-  } catch (error) {
-    return res.status(500).send('unable to fetch')
-    
-  }
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const offset = (page - 1) * limit;
 
-}
+    const { count, rows } = await expenseModel.findAndCountAll({
+      where: { UserId: req.user.id },
+      offset,
+      limit,
+      order: [['createdAt', 'DESC']]
+    });
+
+    const totalPages = Math.ceil(count / limit);
+
+    return res.status(200).json({
+      expenses: rows,
+      totalExpenses: count,
+      totalPages,
+      currentPage: page
+    });
+  } catch (error) {
+    console.error("Error fetching expenses:", error);
+    return res.status(500).json({ message: "Unable to fetch expenses" });
+  }
+};
 
 module.exports = { AddExpense,AllExpenses,DeleteExpense };

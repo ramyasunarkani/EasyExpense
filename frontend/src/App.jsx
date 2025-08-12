@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LeaderBoard from './components/LeaderBoard'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import UpdatePassword from './pages/UpdatePassword'
+import ReportGenerate from './components/ReportGenerate'
 
 function App() {
   const dispatch=useDispatch();

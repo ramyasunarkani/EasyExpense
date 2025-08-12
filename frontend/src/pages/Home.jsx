@@ -26,8 +26,8 @@ const Home = () => {
       {isMainHome && (
         <>
           <Header />
-          <Expenses />
           <ExpenseForm />
+          <Expenses />
         </>
       )}
       <Outlet />

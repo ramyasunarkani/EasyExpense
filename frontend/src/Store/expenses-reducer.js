@@ -1,24 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const ExpensesSlice = createSlice({
-  name: 'expenses',
+const expensesSlice = createSlice({
+  name: "expenses",
   initialState: {
     allExpenses: [],
+    totalExpenses: 0,
+    totalPages: 0,
+    currentPage: 1
   },
   reducers: {
     fetchAll(state, action) {
-      state.allExpenses = action.payload;
+      state.allExpenses = action.payload.expenses;
+      state.totalExpenses = action.payload.totalExpenses;
+      state.totalPages = action.payload.totalPages;
+      state.currentPage = action.payload.currentPage;
     },
     addNewExpense(state, action) {
-      state.allExpenses.push(action.payload);
+      state.allExpenses.unshift(action.payload);
     },
     deleteExpense(state, action) {
-      const idToDelete = action.payload;
-      state.allExpenses = state.allExpenses.filter(exp => exp.id !== idToDelete);
+      state.allExpenses = state.allExpenses.filter(exp => exp.id !== action.payload);
     }
   }
 });
 
-export const ExpenseActions = ExpensesSlice.actions;
-
-export default ExpensesSlice.reducer;
+export const ExpenseActions = expensesSlice.actions;
+export default expensesSlice.reducer;

@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux"; 
 import { buyPremium } from "../Store/payment-actions";
+import { downloadReport } from "../Store/premium-actions";
 
 const PremiumButton = () => {
   const navigate = useNavigate();
@@ -16,6 +17,9 @@ const PremiumButton = () => {
     navigate('/home/leaderboard')
 
   }
+  const showReport = () => {
+    dispatch(downloadReport()); 
+  };
 
   return (
     <>
@@ -28,8 +32,9 @@ const PremiumButton = () => {
         >show leaderboard</button>
         <button 
         className="border-0 cursor-pointer text-white bg-green-400 px-4 py-1 ml-3"
-       Report Generate
-        >show leaderboard</button>
+        onClick={showReport}
+       
+        >Report Generate</button>
         
          </>
       ) : (
