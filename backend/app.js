@@ -29,7 +29,7 @@ app.use('/password',pasRoutes);
 db.sync().then(() => {
 
     
-    app.listen(3000,()=>{
+    app.listen(process.env.PORT||3000,()=>{
         console.log('app started at port 3000');
     })
     

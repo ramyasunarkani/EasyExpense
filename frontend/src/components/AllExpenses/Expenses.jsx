@@ -6,10 +6,15 @@ import Pagination from '../Pagination ';
 
 const Expenses = () => {
   const dispatch = useDispatch();
-  const { allExpenses = [], totalPages = 0, currentPage = 1 } = useSelector(state => state.expenses);
-  const [limit, setLimit] = useState(6);
+  const { allExpenses = [], totalPages = 0, currentPage = 1, limit: stateLimit } = useSelector(state => state.expenses);
+
+  // Load limit from localStorage or Redux state
+  const [limit, setLimit] = useState(() => {
+    return Number(localStorage.getItem('expensesLimit')) || stateLimit || 5;
+  });
 
   useEffect(() => {
+    localStorage.setItem('expensesLimit', limit);
     dispatch(fetchAllExpenses(currentPage, limit));
   }, [dispatch, currentPage, limit]);
 
@@ -24,39 +29,36 @@ const Expenses = () => {
   }
 
   return (
-    <div className="max-w-full mx-auto p-4 border border-gray-200">
-      
-      {/* Header Row with title & select */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold">Expenses</h2>
-        <div className="flex items-center gap-2">
-          <label htmlFor="limit" className="text-sm font-medium">Expenses per page:</label>
-          <select
-            id="limit"
-            value={limit}
-            onChange={(e) => setLimit(Number(e.target.value))}
-            className="border p-1 rounded"
-          >
-            <option value={2}>2</option>
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-          </select>
-        </div>
+    <div className="max-w-full mx-auto p-4 border border-gray-200 flex flex-col gap-4">
+      {/* Limit selector */}
+      <div className="flex justify-end items-center gap-2">
+        <label htmlFor="limit" className="text-sm font-medium">Items per page:</label>
+        <select
+          id="limit"
+          value={limit}
+          onChange={(e) => setLimit(Number(e.target.value))}
+          className="border p-1 rounded"
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={40}>40</option>
+        </select>
       </div>
 
-     <div className="space-y-3">
+      {/* Expenses List */}
+      <div className="grid gap-2">
         {allExpenses.map(expense => (
           <Expense key={expense.id} {...expense} />
         ))}
       </div>
+
       {/* Pagination */}
-      <div className="mt-4">
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          onPageChange={changePage}
-        />
-      </div>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={changePage}
+      />
     </div>
   );
 };

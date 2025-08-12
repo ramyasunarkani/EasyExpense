@@ -4,7 +4,8 @@ import { addNewExpense, fetchAllExpenses } from '../Store/expense-actions';
 
 const ExpenseForm = () => {
   const dispatch = useDispatch();
-  const { currentPage } = useSelector(state => state.expenses);
+  const { currentPage, totalPages, allExpenses, limit } = useSelector(state => state.expenses);
+
   const [formData, setFormData] = useState({
     category: '',
     amount: '',
@@ -13,15 +14,16 @@ const ExpenseForm = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     await dispatch(addNewExpense(formData));
-    await dispatch(fetchAllExpenses(currentPage, 6));
 
-    setFormData({
-      category: '',
-      amount: '',
-      description: ''
-    });
+    // If last page is full, go to next page
+    if (currentPage === totalPages && allExpenses.length >= limit) {
+      await dispatch(fetchAllExpenses(totalPages + 1, limit));
+    } else {
+      await dispatch(fetchAllExpenses(currentPage, limit));
+    }
+
+    setFormData({ category: '', amount: '', description: '' });
   };
 
   const changeHandler = (e) => {
@@ -71,7 +73,7 @@ const ExpenseForm = () => {
 
         <button
           type="submit"
-          className="bg-gray-200 text-black px-4 py-1  hover:bg-gray-300"
+          className="bg-gray-200 text-black px-4 py-1 hover:bg-gray-300"
         >
           Add Expense
         </button>

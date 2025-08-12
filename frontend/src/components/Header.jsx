@@ -10,7 +10,7 @@ const Header = () => {
     dispatch(logoutUser());
   }
   return (
-    <header className="flex justify-between items-center p-4 bg-white shadow-md shadow-amber-100 mb-2">
+    <header className="flex justify-between items-center px-3 pb-2 bg-white shadow-md shadow-amber-100 mb-2">
       <section>
         <p className="text-lg text-gray-700 font-bold">
           Welcome {name}!

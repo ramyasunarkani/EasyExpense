@@ -1,22 +1,24 @@
-// controllers/passwordController.js
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
-const Sib = require('sib-api-v3-sdk');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const { User, Forgotpassword } = require('../models');
 
-const client = Sib.ApiClient.instance;
-const apiKey = client.authentications['api-key'];
-apiKey.apiKey = process.env.API_KEY;
-const transEmailApi = new Sib.TransactionalEmailsApi();
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT || 587,
+  secure: false, 
+  auth: {
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS  
+  }
+});
 
-// 1. Forgot Password
 const forgotpassword = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ where: { email } });
-    console.log(user.id,'request password user')
 
     if (!user) {
       return res.status(404).json({ message: 'User does not exist' });
@@ -25,25 +27,27 @@ const forgotpassword = async (req, res) => {
     const id = uuid.v4();
     await Forgotpassword.create({
       id,
-      UserId: user.dataValues.id, // association
+      UserId: user.dataValues.id,
       active: true,
-      expiresby: new Date(Date.now() + 60 * 60 * 1000) // 1 hour expiry
+      expiresby: new Date(Date.now() + 60 * 60 * 1000) 
     });
 
     const resetLink = `http://localhost:3000/password/resetpassword/${id}`;
 
-    const sender = {
-      email: 'ramyakrishnasunarkani@gmail.com',
-      name: 'Expense Tracker App'
-    };
+    await transporter.sendMail({
+  from: `"Expense Tracker App" <${process.env.EMAIL_USER}>`,
+  to: email,
+  subject: "Password Reset Request",
+  html: `
+    <p>Click <a href="${resetLink}">here</a> to reset your password.</p>
+    <p><strong>Note:</strong> This link will expire in 1 hour.</p>
+    <p>If you did not request a password reset, please ignore this email.</p>
+  `,
+  text: `Click the link to reset your password: ${resetLink}
+This link will expire in 1 hour.
+If you did not request a password reset, please ignore this email.`
+});
 
-    await transEmailApi.sendTransacEmail({
-      sender,
-      to: [{ email }],
-      subject: 'Password Reset Request',
-      htmlContent: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
-      textContent: `Click the link to reset your password: ${resetLink}`
-    });
 
     return res.status(200).json({ message: 'Reset link sent to email' });
   } catch (error) {
@@ -52,7 +56,6 @@ const forgotpassword = async (req, res) => {
   }
 };
 
-// 2. Reset Password
 const resetpassword = async (req, res) => {
   try {
     const { id } = req.params;
@@ -80,7 +83,6 @@ const updatepassword = async (req, res) => {
     if (!request) {
       return res.status(404).json({ error: 'Invalid or expired reset request', success: false });
     }
-    console.log(request.UserId,'uuuuuuuuuuu')
 
     const user = await User.findOne({ where: { id: request.UserId } });
     if (!user) {

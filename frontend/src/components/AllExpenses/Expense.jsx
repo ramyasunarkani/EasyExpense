@@ -10,18 +10,16 @@ const Expense = ({ id, amount, category, description, createdAt }) => {
   };
 
   return (
-    <div className="flex justify-between items-center p-1.5 border rounded shadow-sm hover:shadow-md transition bg-white">
-      {/* All details in one row */}
-      <div className="flex gap-6 items-center text-sm">
-        <span className="font-semibold text-lg">₹{amount}</span>
-        <span className="text-gray-600">{category}</span>
-        {description && <span className="italic">{description}</span>}
-        <span className="text-gray-400 text-xs">{createdAt}</span>
+    <div className="flex justify-between items-center p-3 border rounded shadow-sm hover:shadow-md transition bg-white">
+      <div className="flex flex-wrap items-center gap-4">
+        <span className="text-lg font-semibold">₹{amount}</span>
+        <span className="text-sm text-gray-600">{category}</span>
+        {description && <span className="text-sm italic">{description}</span>}
+        <span className="text-xs text-gray-400">{createdAt}</span>
       </div>
-
       <button
         onClick={handleDelete}
-        className="bg-gray-200 text-black px-3 py-1 rounded hover:border-red-400 transition"
+        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
       >
         Delete
       </button>
