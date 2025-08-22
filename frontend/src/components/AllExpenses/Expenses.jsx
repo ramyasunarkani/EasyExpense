@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Expense from './Expense';
-import { fetchAllExpenses } from '../../Store/expense-actions';
-import Pagination from '../Pagination ';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllExpenses } from "../../Store/expense-actions";
+import Expense from "./Expense";
+import Pagination from "../Pagination ";
+import { downloadReport } from "../../Store/premium-actions";
 
 const Expenses = () => {
   const dispatch = useDispatch();
-  const { allExpenses = [], totalPages = 0, currentPage = 1, limit: stateLimit } = useSelector(state => state.expenses);
+  const isPremium = useSelector((state) => state.auth.isPremium);
+  const {
+    allExpenses = [],
+    totalPages = 0,
+    currentPage = 1,
+    limit: stateLimit,
+  } = useSelector((state) => state.expenses);
 
   // Load limit from localStorage or Redux state
   const [limit, setLimit] = useState(() => {
-    return Number(localStorage.getItem('expensesLimit')) || stateLimit || 5;
+    return Number(localStorage.getItem("expensesLimit")) || stateLimit || 10;
   });
 
   useEffect(() => {
-    localStorage.setItem('expensesLimit', limit);
+    localStorage.setItem("expensesLimit", limit);
     dispatch(fetchAllExpenses(currentPage, limit));
   }, [dispatch, currentPage, limit]);
 
@@ -24,41 +31,77 @@ const Expenses = () => {
     }
   };
 
-  if (!allExpenses || allExpenses.length === 0) {
-    return <p className="text-center mt-4 text-gray-500">No expenses found.</p>;
-  }
+  // Download CSV
+  const downloadCSV = () => {
+      dispatch(downloadReport());
+    };
 
   return (
-    <div className="max-w-full mx-auto p-4 border border-gray-200 flex flex-col gap-4">
-      {/* Limit selector */}
-      <div className="flex justify-end items-center gap-2">
-        <label htmlFor="limit" className="text-sm font-medium">Items per page:</label>
-        <select
-          id="limit"
-          value={limit}
-          onChange={(e) => setLimit(Number(e.target.value))}
-          className="border p-1 rounded"
+    <div className="w-full max-w-5xl mx-auto pt-7   rounded-lg">
+      <h2 className="text-xl  text-center mb-4">Your Expenses</h2>
+
+      {/* Header Row */}
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <label htmlFor="limit" className="mr-2 font-medium">
+            Expenses per page:
+          </label>
+          <select
+            id="limit"
+            value={limit}
+            onChange={(e) => setLimit(Number(e.target.value))}
+            className="border p-1 rounded text-black"
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={40}>40</option>
+          </select>
+        </div>
+       {isPremium&&( <button
+          onClick={downloadCSV}
+          className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
         >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-          <option value={40}>40</option>
-        </select>
+          Download Expenses CSV
+        </button>)}
       </div>
 
-      {/* Expenses List */}
-      <div className="grid gap-2">
-        {allExpenses.map(expense => (
-          <Expense key={expense.id} {...expense} />
-        ))}
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border border-teal-600 rounded-lg overflow-hidden">
+          <thead className="bg-teal-700 text-white">
+            <tr>
+              <th className="px-4 py-2 text-left">Description</th>
+              <th className="px-4 py-2 text-left">Category</th>
+              <th className="px-4 py-2 text-left">Amount</th>
+              <th className="px-4 py-2 text-center">Action</th>
+              {/* <th className="px-4 py-2 text-center">Edit</th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {allExpenses.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="p-4 text-center text-gray-300">
+                  No expenses found.
+                </td>
+              </tr>
+            ) : (
+              allExpenses.map((expense) => (
+                <Expense key={expense.id} {...expense} />
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
 
       {/* Pagination */}
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={changePage}
-      />
+      <div className="mt-4">
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={changePage}
+        />
+      </div>
     </div>
   );
 };

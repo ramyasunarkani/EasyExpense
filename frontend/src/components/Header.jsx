@@ -1,31 +1,28 @@
-import React from 'react';
-import PremiumButton from './PremiumButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../Store/auth-actions';
+import React from "react";
+import PremiumButton from "./PremiumButton";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const dispatch=useDispatch();
-  const name=useSelector(state=>state.auth.name)
-  function handleLogout(){
-    dispatch(logoutUser());
-  }
+  const { isLoggedIn, name, isPremium } = useSelector((state) => state.auth);
+
   return (
-    <header className="flex justify-between items-center px-3 pb-2 bg-white shadow-md shadow-amber-100 mb-2">
-      <section>
-        <p className="text-lg text-gray-700 font-bold">
-          Welcome {name}!
-        </p>
-        <div>
-          <PremiumButton />
-        </div>
-      </section>
-      <button
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-    </header>
+    <header className="fixed top-0 left-0 z-10 w-full flex justify-between items-center px-4 h-14
+ bg-[#FFFFFF] border-b border-gray-300">
+  {isLoggedIn ? (
+    <div className="flex flex-col">
+      <p className="text-lg text-teal-700 font-bold">
+        {isPremium
+          ? `Welcome back, ${name}! Enjoy your Premium experience.`
+          : `Welcome, ${name}!`}
+      </p>
+    </div>
+  ) : (
+    <h1 className="text-xl font-bold text-[#00786F]">Expense Tracker</h1>
+  )}
+
+  {isLoggedIn && <PremiumButton />}
+</header>
+
   );
 };
 

@@ -13,6 +13,9 @@ import LeaderBoard from './components/LeaderBoard'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import UpdatePassword from './pages/UpdatePassword'
 import ReportGenerate from './components/ReportGenerate'
+import Header from './components/Header'
+import ExpenseForm from './components/ExpenseForm'
+import Expenses from './components/AllExpenses/Expenses'
 
 function App() {
   const dispatch=useDispatch();
@@ -32,6 +35,7 @@ useEffect(() => {
   return (
        <>
           <ToastContainer position="top-right" autoClose={3000} />
+          <Header/>
           <Routes>
 
             <Route path='/' element={<Navigate to='/login'/>}/>
@@ -40,8 +44,11 @@ useEffect(() => {
             <Route path='/forgot-password' element={<PublicRoute element={<ForgotPasswordPage/>}/>}/>
             <Route path="/update-password/:resetpasswordid" element={<UpdatePassword />} />
 
-            <Route path='home' element={<PrivateRoute element={<Home/>}/>}>
+            <Route path='/home' element={<PrivateRoute element={<Home/>}/>}>
+            <Route index element={<Navigate to="add" replace />} />
+             <Route path='add' element={<ExpenseForm/>}/>
               <Route path='leaderboard' element={<LeaderBoard/>}/>
+              <Route path='expenses' element={<Expenses/>}/>
             </Route>
 
           </Routes>

@@ -1,7 +1,7 @@
 const { User, expenses } = require('../models');
 const { Parser } = require('json2csv');
+const AWS=require('aws-sdk');
 
-// leaderboard
 const totalExpensesOfUsers = async (req, res) => {
   try {
     const results = await User.findAll({
@@ -15,7 +15,30 @@ const totalExpensesOfUsers = async (req, res) => {
   }
 };
 
-// report
+const s3 = new AWS.S3({
+  accessKeyId: process.env.IAM_USER_KEY,
+  secretAccessKey: process.env.IAM_USER_SECRET
+});
+
+async function uploadToS3(data, filename) {
+  try {
+    const params = {
+      Bucket: "ramya-expense",  
+      Key: filename,
+      Body: data,
+      ContentType: "text/csv",
+      ACL: "public-read"
+    };
+
+    const response = await s3.upload(params).promise();
+    console.log("Upload Success:", response);
+    return response; 
+  } catch (err) {
+    console.error("S3 Upload Failed:", err);
+    throw err;
+  }
+}
+
 const GenerateReport = async (req, res) => {
   try {
     const userExpenses = await expenses.findAll({
@@ -27,13 +50,13 @@ const GenerateReport = async (req, res) => {
       return res.status(404).json({ message: "No expenses found" });
     }
 
-    const plainExpenses = userExpenses.map(exp => exp.get({ plain: true }));
-    const json2csvParser = new Parser();
-    const csv = json2csvParser.parse(plainExpenses);
+    const stringfyExpenses = JSON.stringify(userExpenses);
+    const filename = `expenses-${req.user.id}-${Date.now()}.CSV`; 
 
-    res.header('Content-Type', 'text/csv');
-    res.attachment('expenses_report.csv');
-    return res.send(csv);
+    const fileURL = await uploadToS3(stringfyExpenses, filename);
+
+    return res.status(200).json({ fileURL, success: true });
+
   } catch (error) {
     console.error("Error generating report:", error);
     return res.status(500).json({ message: "Internal server error" });

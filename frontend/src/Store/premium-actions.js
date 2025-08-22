@@ -20,20 +20,26 @@ export const downloadReport = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:3000/premium/report", {
-        headers: { Authorization: token },
-        responseType: "blob" // important for file download
+        headers: { Authorization: token }
       });
 
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "expenses_report.csv");
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+      if (res.status === 200 || res.status === 201) {
+        // ✅ Correct path to S3 URL
+        const fileUrl = res.data.fileURL?.Location;
+
+        if (!fileUrl) throw new Error("Report URL not found");
+
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.setAttribute("download", "expenses_report.csv"); 
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } else {
+        throw new Error(res.data.message);
+      }
     } catch (error) {
       console.error("Failed to download report:", error);
     }
   };
 };
-
