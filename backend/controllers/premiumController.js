@@ -1,5 +1,4 @@
 const { User, expenses } = require('../models');
-const { Parser } = require('json2csv');
 const AWS=require('aws-sdk');
 
 const totalExpensesOfUsers = async (req, res) => {

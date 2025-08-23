@@ -2,7 +2,6 @@
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const Sib = require('sib-api-v3-sdk');
-require('dotenv').config();
 
 const { User, Forgotpassword } = require('../models');
 
