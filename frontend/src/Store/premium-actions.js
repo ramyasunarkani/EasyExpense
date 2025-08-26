@@ -5,7 +5,7 @@ import { premiumActions } from "./premium-reducer";
 export const leaderBoardList = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:3000/premium/leaderboard");
+      const res = await axios.get("http://3.108.252.169/api/premium/leaderboard");
       console.log(res.data);
       dispatch(premiumActions.setLeaderboard(res.data)); 
     } catch (error) {
@@ -19,7 +19,7 @@ export const downloadReport = () => {
   return async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/premium/report", {
+      const res = await axios.get("http://3.108.252.169/api/premium/report", {
         headers: { Authorization: token }
       });
 
