@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { authActions } from "./auth-reducer";
 
-const paymentURL = "http://localhost:3000/payment";
+const paymentURL = "http://3.108.252.169/api//payment";
 
 export function buyPremium() {
   return async (dispatch, getState) => {
