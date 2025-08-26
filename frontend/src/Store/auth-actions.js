@@ -7,7 +7,7 @@ export const signUpUser = ({ name, email, password, navigate }) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/user/signup',
+        'http://3.108.252.169/api/user/signup',
         { name, email, password }
       );
 
@@ -24,7 +24,7 @@ export const loginUser = ({ email, password, navigate }) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'http://localhost:3000/user/login',
+        'http://3.108.252.169/api/user/login',
         { email, password }
       );
       
@@ -51,7 +51,7 @@ export const logoutUser = (navigate) => {
 export const userForgotPassword=(email)=>{
   return async (dispatch)=>{
     try {
-      const res=await axios.post('http://localhost:3000/password/forgotpassword ',{email});
+      const res=await axios.post('http://3.108.252.169/api/password/forgotpassword ',{email});
       console.log(res);
     } catch (error) {
       console.error(error,'unable send link')
@@ -72,7 +72,7 @@ export const updatePasswordAction = (resetpasswordid, newpassword, navigate) => 
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/password/updatepassword/${resetpasswordid}`,
+        `http://3.108.252.169/api/password/updatepassword/${resetpasswordid}`,
         { newpassword }
       );
       toast.success(response.data.success || "Password updated successfully!");
