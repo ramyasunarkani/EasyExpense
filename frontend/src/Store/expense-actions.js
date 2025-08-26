@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ExpenseActions } from './expenses-reducer'; 
 
-const expenseURL = 'http://localhost:3000/expenses';
+const expenseURL = 'http://3.108.252.169/api//expenses';
 
 export function addNewExpense({ category, amount, description }) {
   return async (dispatch, getState) => {
@@ -46,7 +46,6 @@ export function fetchAllExpenses(page = 1, limit) {
     try {
       const token = getState().auth.token;
 
-      // Explicit grouping so TS knows the order
       const stateLimit =
         limit ??
         getState().expenses.limit ??
