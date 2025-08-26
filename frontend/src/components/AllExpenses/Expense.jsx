@@ -9,9 +9,7 @@ const Expense = ({ id, description, category, amount }) => {
     dispatch(deleteExpense(id));
   };
 
-  // const handleEdit = () => {
-  //   alert(`Edit expense: ${description}`);
-  // };
+  
 
   return (
     <tr className="border-b border-gray-600">
@@ -26,14 +24,7 @@ const Expense = ({ id, description, category, amount }) => {
           Delete
         </button>
       </td>
-      {/* <td className="px-4 py-2 text-center">
-        <button
-          onClick={handleEdit}
-          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-        >
-          Edit
-        </button>
-      </td> */}
+      
     </tr>
   );
 };

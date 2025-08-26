@@ -1,7 +1,6 @@
 const Pagination = ({ totalPages = 1, currentPage = 1, onPageChange }) => {
   return (
     <div className="flex justify-between items-center mt-6">
-      {/* Prev button */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -15,12 +14,10 @@ const Pagination = ({ totalPages = 1, currentPage = 1, onPageChange }) => {
         &lt; Prev
       </button>
 
-      {/* Page info */}
       <span className="text-gray-700 font-medium">
         Page {currentPage} of {totalPages > 0 ? totalPages : 1}
       </span>
 
-      {/* Next button */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages || totalPages === 0}

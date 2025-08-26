@@ -30,7 +30,7 @@ const SideBar = () => {
           to="/home/add"
           className={({ isActive }) =>
             `px-3 py-2 rounded cursor-pointer font-medium flex items-center gap-2 ${
-              isActive ? "bg-violet-600 text-white" : "hover:bg-gray-200"
+              isActive ? "bg-teal-600 text-white" : "hover:bg-gray-200"
             }`
           }
         >
@@ -40,7 +40,7 @@ const SideBar = () => {
           to="/home/expenses"
           className={({ isActive }) =>
             `px-3 py-2 rounded cursor-pointer font-medium flex items-center gap-2 ${
-              isActive ? "bg-violet-600 text-white" : "hover:bg-gray-200"
+              isActive ? "bg-teal-600 text-white" : "hover:bg-gray-200"
             }`
           }
         >
@@ -55,26 +55,17 @@ const SideBar = () => {
               to="/home/leaderboard"
               className={({ isActive }) =>
             `px-3 py-2 rounded cursor-pointer font-medium flex items-center gap-2 ${
-              isActive ? "bg-violet-600 text-white" : "hover:bg-gray-200"
+              isActive ? "bg-teal-600 text-white" : "hover:bg-gray-200"
             }`
           }
             ><MdLeaderboard />
               <span>Leaderboard</span>
             </NavLink>
-            {/* <button
-              onClick={handleReport}
-              className={({ isActive }) =>
-            `px-3 py-2 rounded cursor-pointer font-medium flex items-center gap-2 ${
-              isActive ? "bg-violet-600 text-white" : "hover:bg-gray-200"
-            }`
-          }><FaFileAlt />
-            <span> Report</span>
-            </button> */}
+           
           </>
         )}
       </nav>
 
-      {/* Logout button at bottom */}
       <div className="p-4">
         <button
           onClick={handleLogout}

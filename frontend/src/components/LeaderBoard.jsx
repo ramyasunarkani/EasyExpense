@@ -14,7 +14,7 @@ const LeaderBoard = () => {
     <div className="flex flex-col items-center p-6 w-full h-full mt-5">
       <div className="w-full max-w-3xl bg-white rounded-xl ">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-violet-600 text-white">
+          <thead className="bg-teal-600 text-white">
             <tr>
               <th className="px-6 py-3">Rank</th>
               <th className="px-6 py-3">Name</th>

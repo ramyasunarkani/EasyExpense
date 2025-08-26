@@ -39,7 +39,6 @@ const ExpenseForm = () => {
     <div className="p-6 bg-white shadow-md rounded-lg max-w-md mx-auto mt-14">
       <h2 className="text-xl font-bold text-gray-800 mb-4">Add New Expense</h2>
       <form onSubmit={submitHandler} className="space-y-4">
-        {/* Category */}
         <div>
           <label className="block text-gray-700 mb-1 font-medium">
             Category
@@ -48,7 +47,7 @@ const ExpenseForm = () => {
             name="category"
             value={formData.category}
             onChange={changeHandler}
-            className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-violet-400"
+            className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none"
             required
           >
             <option value="">Select category</option>
@@ -60,7 +59,6 @@ const ExpenseForm = () => {
           </select>
         </div>
 
-        {/* Amount */}
         <div>
           <label className="block text-gray-700 mb-1 font-medium">Amount</label>
           <input
@@ -69,12 +67,11 @@ const ExpenseForm = () => {
             placeholder="Enter amount"
             value={formData.amount}
             onChange={changeHandler}
-            className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-violet-400"
+            className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none"
             required
           />
         </div>
 
-        {/* Description */}
         <div>
           <label className="block text-gray-700 mb-1 font-medium">
             Description
@@ -85,14 +82,13 @@ const ExpenseForm = () => {
             placeholder="Enter description"
             value={formData.description}
             onChange={changeHandler}
-            className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-violet-400"
+            className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none "
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-violet-600 text-white px-5 py-2 rounded-lg hover:bg-violet-700 transition-colors"
+          className="w-full bg-teal-600 text-white px-5 py-2 rounded-lg hover:bg-teal-700 transition-colors"
         >
           Add Expense
         </button>

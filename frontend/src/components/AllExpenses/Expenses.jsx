@@ -15,7 +15,6 @@ const Expenses = () => {
     limit: stateLimit,
   } = useSelector((state) => state.expenses);
 
-  // Load limit from localStorage or Redux state
   const [limit, setLimit] = useState(() => {
     return Number(localStorage.getItem("expensesLimit")) || stateLimit || 10;
   });
@@ -31,7 +30,6 @@ const Expenses = () => {
     }
   };
 
-  // Download CSV
   const downloadCSV = () => {
       dispatch(downloadReport());
     };
@@ -40,7 +38,6 @@ const Expenses = () => {
     <div className="w-full max-w-5xl mx-auto pt-7   rounded-lg">
       <h2 className="text-xl  text-center mb-4">Your Expenses</h2>
 
-      {/* Header Row */}
       <div className="flex justify-between items-center mb-4">
         <div>
           <label htmlFor="limit" className="mr-2 font-medium">
@@ -66,7 +63,6 @@ const Expenses = () => {
         </button>)}
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border border-teal-600 rounded-lg overflow-hidden">
           <thead className="bg-teal-700 text-white">
@@ -75,7 +71,6 @@ const Expenses = () => {
               <th className="px-4 py-2 text-left">Category</th>
               <th className="px-4 py-2 text-left">Amount</th>
               <th className="px-4 py-2 text-center">Action</th>
-              {/* <th className="px-4 py-2 text-center">Edit</th> */}
             </tr>
           </thead>
           <tbody>
