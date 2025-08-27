@@ -7,12 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Node modules (frontend and backend)
+node_modules/
 
+# Environment files (frontend and backend)
+.env
+
+# Local files
 *.local
 
+# VSCode settings
 .vscode/*
 !.vscode/extensions.json
+
+# IDE files
 .idea
 .DS_Store
 *.suo
@@ -20,5 +28,3 @@ node_modules
 *.njsproj
 *.sln
 *.sw?
-
-.env
