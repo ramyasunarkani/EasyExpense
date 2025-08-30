@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from "./api";
 import { ExpenseActions } from './expenses-reducer'; 
+import { reportActions } from "./report-reducer";
 
-const expenseURL = 'http://3.108.252.169/api//expenses';
 
 export function addNewExpense({ category, amount, description }) {
   return async (dispatch, getState) => {
     try {
       const token = getState().auth.token;
-      const response = await axios.post(`${expenseURL}/addexpense`, 
+      const response = await axios.post('/expenses/addexpense', 
         { category, amount, description },
         { headers: { "Authorization": token } }
       );
@@ -24,12 +24,11 @@ export function deleteExpense(id) {
       const token = getState().auth.token;
       const { currentPage, allExpenses, limit } = getState().expenses;
 
-      await axios.delete(`${expenseURL}/delete/${id}`, 
+      await axios.delete(`/expenses/delete/${id}`, 
         { headers: { "Authorization": token } }
       );
       dispatch(ExpenseActions.deleteExpense(id));
 
-      // If last item on last page is deleted → go back one page
       if (currentPage > 1 && allExpenses.length === 1) {
         dispatch(fetchAllExpenses(currentPage - 1, limit));
       } else {
@@ -52,7 +51,7 @@ export function fetchAllExpenses(page = 1, limit) {
         (Number(localStorage.getItem('expensesLimit')) || 6);
 
       const response = await axios.get(
-        `${expenseURL}/all?page=${page}&limit=${stateLimit}`,
+        `/expenses/all?page=${page}&limit=${stateLimit}`,
         { headers: { "Authorization": token } }
       );
 
@@ -67,3 +66,18 @@ export function fetchAllExpenses(page = 1, limit) {
     }
   };
 }
+
+
+export const fetchReport = (range) => {
+  return async (dispatch, getState) => {
+    try {
+      const token = getState().auth.token;
+      const res = await axios.get(`/expenses/report?range=${range}`, {
+        headers: { Authorization: token },
+      });
+      dispatch(reportActions.setReport(res.data.expenses));
+    } catch (error) {
+      console.error("Unable to fetch report", error);
+    }
+  };
+};

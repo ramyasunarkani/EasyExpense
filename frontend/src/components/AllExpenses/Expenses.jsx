@@ -89,7 +89,6 @@ const Expenses = () => {
         </table>
       </div>
 
-      {/* Pagination */}
       <div className="mt-4">
         <Pagination
           totalPages={totalPages}

@@ -94,4 +94,54 @@ const AllExpenses = async (req, res) => {
   }
 };
 
-module.exports = { AddExpense,AllExpenses,DeleteExpense };
+const { Op, fn, col } = require("sequelize");
+
+const ReportExpenses = async (req, res) => {
+  try {
+    const { range } = req.query; 
+    const userId = req.user.id;
+
+    const today = new Date();
+    let startDate;
+
+    switch (range) {
+      case "daily":
+        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        break;
+      case "weekly":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - today.getDay()); // Sunday as start
+        break;
+      case "monthly":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        break;
+      case "yearly":
+        startDate = new Date(today.getFullYear(), 0, 1); // Jan 1st
+        break;
+      default:
+        return res.status(400).json({ message: "Invalid range" });
+    }
+
+    const expenses = await expenseModel.findAll({
+      attributes: [
+        "category",
+        [fn("SUM", col("amount")), "totalAmount"],
+        [fn("COUNT", col("id")), "count"]
+      ],
+      where: {
+        UserId: userId,
+        createdAt: {
+          [Op.gte]: startDate
+        }
+      },
+      group: ["category"]
+    });
+
+    return res.status(200).json({ range, expenses });
+  } catch (error) {
+    console.error("Error generating report:", error);
+    return res.status(500).json({ message: "Unable to generate report" });
+  }
+};
+
+module.exports = { AddExpense, AllExpenses, DeleteExpense, ReportExpenses };

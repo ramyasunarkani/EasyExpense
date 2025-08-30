@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './api';
 import { authActions } from './auth-reducer';
 import { toast } from 'react-toastify';
 
@@ -7,7 +7,7 @@ export const signUpUser = ({ name, email, password, navigate }) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'http://3.108.252.169/api/user/signup',
+        '/user/signup',
         { name, email, password }
       );
 
@@ -23,10 +23,7 @@ export const signUpUser = ({ name, email, password, navigate }) => {
 export const loginUser = ({ email, password, navigate }) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        'http://3.108.252.169/api/user/login',
-        { email, password }
-      );
+      const response = await axios.post('/user/login',{ email, password });
       
       const { token, name, isPremium } = response.data.user;
 
@@ -51,7 +48,7 @@ export const logoutUser = (navigate) => {
 export const userForgotPassword=(email)=>{
   return async (dispatch)=>{
     try {
-      const res=await axios.post('http://3.108.252.169/api/password/forgotpassword ',{email});
+      const res=await axios.post('/password/forgotpassword ',{email});
       console.log(res);
     } catch (error) {
       console.error(error,'unable send link')
@@ -71,10 +68,7 @@ export const updatePasswordAction = (resetpasswordid, newpassword, navigate) => 
     }
 
     try {
-      const response = await axios.post(
-        `http://3.108.252.169/api/password/updatepassword/${resetpasswordid}`,
-        { newpassword }
-      );
+      const response = await axios.post(`/password/updatepassword/${resetpasswordid}`, { newpassword });
       toast.success(response.data.success || "Password updated successfully!");
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {

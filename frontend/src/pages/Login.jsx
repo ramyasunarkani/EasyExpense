@@ -45,6 +45,7 @@ const Login = () => {
               id="email"
               name="email"
               placeholder="Email"
+              required
               value={formData.email}
               onChange={handleChange}
               className="control-input w-full border border-gray-300 rounded p-2 mt-1"
@@ -59,6 +60,7 @@ const Login = () => {
               id="pass"
               name="password"
               placeholder="Password"
+              required
               value={formData.password}
               onChange={handleChange}
               className="control-input w-full border border-gray-300 rounded p-2 mt-1"

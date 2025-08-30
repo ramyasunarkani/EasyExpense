@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from "./api";
 import { premiumActions } from "./premium-reducer";
 
 
 export const leaderBoardList = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://3.108.252.169/api/premium/leaderboard");
+      const res = await axios.get("/premium/leaderboard");
       console.log(res.data);
       dispatch(premiumActions.setLeaderboard(res.data)); 
     } catch (error) {
@@ -19,12 +19,11 @@ export const downloadReport = () => {
   return async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://3.108.252.169/api/premium/report", {
+      const res = await axios.get("/premium/report", {
         headers: { Authorization: token }
       });
 
       if (res.status === 200 || res.status === 201) {
-        // ✅ Correct path to S3 URL
         const fileUrl = res.data.fileURL?.Location;
 
         if (!fileUrl) throw new Error("Report URL not found");

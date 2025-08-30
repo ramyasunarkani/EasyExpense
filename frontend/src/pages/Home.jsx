@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchPaymentStatus } from "../Store/payment-actions";
-import { Outlet, useLocation } from "react-router";
-import SideBar from "../components/SideBar";
+import { Outlet } from "react-router";
+import NavBar from "../components/NavBar";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
 
   useEffect(() => {
     const orderId = localStorage.getItem("lastOrderId");
@@ -17,15 +16,11 @@ const Home = () => {
     }
   }, [dispatch]);
 
-  const isMainHome = location.pathname === "/home";
-
   return (
-    <div className="flex">
-      {/* Sidebar stays fixed */}
-      <SideBar />
+    <div>
+      <NavBar />
 
-      {/* Main Content Area */}
-      <main className="ml-64 w-full min-h-[calc(100vh-56px)] bg-gray-100 p-6 pt-10">
+      <main className="pt-24 px-6 min-h-screen bg-gray-100">
         <Outlet />
       </main>
     </div>

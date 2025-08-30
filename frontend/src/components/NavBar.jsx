@@ -8,10 +8,7 @@ import { VscGraph } from "react-icons/vsc";
 import { MdLeaderboard } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 
-
-
-
-const SideBar = () => {
+const NavBar = () => {
   const dispatch = useDispatch();
   const isPremium = useSelector((state) => state.auth.isPremium);
 
@@ -24,58 +21,71 @@ const SideBar = () => {
   };
 
   return (
-    <aside className="w-64 h-[calc(100vh-64px)] fixed left-0 top-14 bg-gray-100 border-r border-gray-300 flex flex-col justify-between">
-      <nav className="flex flex-col gap-3 p-4">
+    <nav className="fixed top-14 left-0 right-0 h-12 bg-gray-100 border-b border-gray-300 flex items-center justify-between px-6 z-10">
+      <div className="flex gap-6">
         <NavLink
           to="/home/add"
           className={({ isActive }) =>
-            `px-3 py-2 rounded cursor-pointer font-medium flex items-center gap-2 ${
+            `px-3 py-1 rounded font-medium flex items-center gap-2 ${
               isActive ? "bg-teal-600 text-white" : "hover:bg-gray-200"
             }`
           }
         >
-          <FaPlus /><span>Add Expense</span> 
+          <FaPlus />
+          <span>Add Expense</span>
         </NavLink>
+
         <NavLink
           to="/home/expenses"
           className={({ isActive }) =>
-            `px-3 py-2 rounded cursor-pointer font-medium flex items-center gap-2 ${
+            `px-3 py-1 rounded font-medium flex items-center gap-2 ${
               isActive ? "bg-teal-600 text-white" : "hover:bg-gray-200"
             }`
           }
         >
-        <VscGraph />
-        <span> Expenses</span>
+          <VscGraph />
+          <span>Expenses</span>
         </NavLink>
 
-        
-        {isPremium && (
-          <>
-            <NavLink
-              to="/home/leaderboard"
-              className={({ isActive }) =>
-            `px-3 py-2 rounded cursor-pointer font-medium flex items-center gap-2 ${
+        <NavLink
+          to="/home/report"
+          className={({ isActive }) =>
+            `px-3 py-1 rounded font-medium flex items-center gap-2 ${
               isActive ? "bg-teal-600 text-white" : "hover:bg-gray-200"
             }`
           }
-            ><MdLeaderboard />
-              <span>Leaderboard</span>
-            </NavLink>
-           
-          </>
-        )}
-      </nav>
+        >
+          <FaFileAlt />
+          <span>Report</span>
+        </NavLink>
 
-      <div className="p-4">
+        {isPremium && (
+          <NavLink
+            to="/home/leaderboard"
+            className={({ isActive }) =>
+              `px-3 py-1 rounded font-medium flex items-center gap-2 ${
+                isActive ? "bg-teal-600 text-white" : "hover:bg-gray-200"
+              }`
+            }
+          >
+            <MdLeaderboard />
+            <span>Leaderboard</span>
+          </NavLink>
+        )}
+      </div>
+
+     
+      <div className="flex gap-4">
+       
         <button
           onClick={handleLogout}
-          className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
         >
           Logout
         </button>
       </div>
-    </aside>
+    </nav>
   );
 };
 
-export default SideBar;
+export default NavBar;

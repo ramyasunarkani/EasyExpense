@@ -45,6 +45,7 @@ const SignUp = () => {
               id="name"
               name="name"
               placeholder="Name"
+              required
               value={formData.name}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2 mt-1"
@@ -57,6 +58,7 @@ const SignUp = () => {
               id="email"
               name="email"
               placeholder="Email"
+              required
               value={formData.email}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2 mt-1"
@@ -69,6 +71,7 @@ const SignUp = () => {
               id="pass"
               name="password"
               placeholder="Password"
+              required
               value={formData.password}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2 mt-1"

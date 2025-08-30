@@ -1,18 +1,17 @@
 import { load } from "@cashfreepayments/cashfree-js";
-import axios from "axios";
+import axios from "./api";
 import { toast } from "react-toastify";
 import { authActions } from "./auth-reducer";
 
-const paymentURL = "http://3.108.252.169/api//payment";
 
 export function buyPremium() {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     try {
       const response = await axios.post(
-        `${paymentURL}/pay`,
+        `/payment/pay`,
         {},
-        { headers: { Authorization: token, "Content-Type": "application/json" } }
+        { headers: { Authorization: token} }
       );
 
       if (!response.status || response.status >= 400) {
@@ -21,14 +20,13 @@ export function buyPremium() {
 
       const { paymentSessionId, orderId } = response.data;
 
-      // Store orderId so we can check after redirect
       localStorage.setItem("lastOrderId", orderId);
 
       const cashfree = await load({ mode: "sandbox" });
 
       await cashfree.checkout({
         paymentSessionId,
-        redirect: true // backend return_url should be /home
+        redirect: true
       });
     } catch (err) {
       console.error("Payment initiation error:", err);
@@ -45,7 +43,7 @@ export function fetchPaymentStatus(orderId) {
     const token = getState().auth.token;
     try {
       const response = await axios.get(
-        `${paymentURL}/payment-status/${orderId}`,
+        `/payment/payment-status/${orderId}`,
         { headers: { Authorization: token } }
       );
 

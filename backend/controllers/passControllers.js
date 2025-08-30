@@ -1,4 +1,3 @@
-// controllers/passwordController.js
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const Sib = require('sib-api-v3-sdk');
@@ -10,7 +9,6 @@ const apiKey = client.authentications['api-key'];
 apiKey.apiKey = process.env.API_KEY;
 const transEmailApi = new Sib.TransactionalEmailsApi();
 
-// 1. Forgot Password
 const forgotpassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -24,9 +22,9 @@ const forgotpassword = async (req, res) => {
     const id = uuid.v4();
     await Forgotpassword.create({
       id,
-      UserId: user.dataValues.id, // association
+      UserId: user.dataValues.id, 
       active: true,
-      expiresby: new Date(Date.now() + 60 * 60 * 1000) // 1 hour expiry
+      expiresby: new Date(Date.now() + 60 * 60 * 1000) 
     });
 
     const resetLink = `http://localhost:3000/password/resetpassword/${id}`;
@@ -51,7 +49,6 @@ const forgotpassword = async (req, res) => {
   }
 };
 
-// 2. Reset Password
 const resetpassword = async (req, res) => {
   try {
     const { id } = req.params;
