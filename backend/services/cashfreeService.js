@@ -21,7 +21,7 @@ exports.createOrder = async (orderId, orderAmount, orderCurrency = "INR", custom
         customer_phone: customerPhone,
       },
       order_meta: {
-        return_url: `http://localhost:5173/home`,
+        return_url: `http://13.235.83.45/home`,
         payment_methods: "cc,dc,upi",
       },
       order_expiry_time: formattedExpiryDate,
