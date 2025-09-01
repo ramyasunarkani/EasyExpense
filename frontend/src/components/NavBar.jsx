@@ -47,7 +47,7 @@ const NavBar = () => {
           <span>Expenses</span>
         </NavLink>
 
-        <NavLink
+        {isPremium &&( <NavLink
           to="/home/report"
           className={({ isActive }) =>
             `px-3 py-1 rounded font-medium flex items-center gap-2 ${
@@ -57,7 +57,7 @@ const NavBar = () => {
         >
           <FaFileAlt />
           <span>Report</span>
-        </NavLink>
+        </NavLink>)}
 
         {isPremium && (
           <NavLink
