@@ -24,13 +24,13 @@ export const downloadReport = () => {
       });
 
       if (res.status === 200 || res.status === 201) {
-        const fileUrl = res.data.fileURL?.Location;
+        const fileUrl = res.data.fileURL;
 
         if (!fileUrl) throw new Error("Report URL not found");
 
         const link = document.createElement("a");
         link.href = fileUrl;
-        link.setAttribute("download", "expenses_report.csv"); 
+        link.setAttribute("download", "expenses_report.csv");
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -42,3 +42,4 @@ export const downloadReport = () => {
     }
   };
 };
+

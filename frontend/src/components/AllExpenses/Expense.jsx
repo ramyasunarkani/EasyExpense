@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteExpense } from "../../Store/expense-actions";
 
-const Expense = ({ id, description, category, amount }) => {
+const Expense = ({ _id, description, category, amount }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteExpense(id));
+    dispatch(deleteExpense(_id));
   };
 
   

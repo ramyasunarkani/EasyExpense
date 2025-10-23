@@ -82,7 +82,7 @@ const Expenses = () => {
               </tr>
             ) : (
               allExpenses.map((expense) => (
-                <Expense key={expense.id} {...expense} />
+                <Expense key={expense._id} {...expense} />
               ))
             )}
           </tbody>
