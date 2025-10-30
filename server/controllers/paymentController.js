@@ -40,7 +40,7 @@ const processPayment = async (req, res) => {
 };
 
 
-const getPaymentStatus = async (req, res) => {
+const checkPaymentStatus  = async (req, res) => {
   try {
     const { orderId } = req.params;
     const userId = req.user?._id;
@@ -65,4 +65,4 @@ const getPaymentStatus = async (req, res) => {
 };
 
 
-module.exports={processPayment,getPaymentStatus};
+module.exports={processPayment,checkPaymentStatus };

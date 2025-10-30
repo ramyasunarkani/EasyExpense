@@ -35,7 +35,7 @@ const Expenses = () => {
     };
 
   return (
-    <div className="w-full max-w-5xl mx-auto pt-7   rounded-lg">
+    <div className="w-full max-w-5xl mx-auto pt-7 rounded-lg pb-18">
       <h2 className="text-xl  text-center mb-4">Your Expenses</h2>
 
       <div className="flex justify-between items-center mb-4">

@@ -36,9 +36,9 @@ const ExpenseForm = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg max-w-md mx-auto mt-14">
+    <div className="p-6 bg-white shadow-md rounded-lg max-w-md mx-auto mt-14 ">
       <h2 className="text-xl font-bold text-gray-800 mb-4">Add New Expense</h2>
-      <form onSubmit={submitHandler} className="space-y-4">
+      <form onSubmit={submitHandler} className="space-y-4 ">
         <div>
           <label className="block text-gray-700 mb-1 font-medium">
             Category
@@ -55,6 +55,9 @@ const ExpenseForm = () => {
             <option value="Petrol">Petrol</option>
             <option value="Entertainment">Entertainment</option>
             <option value="Health">Health</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Education">Education</option>
+            <option value="Utilities">Utilities</option>
             <option value="Other">Other</option>
           </select>
         </div>

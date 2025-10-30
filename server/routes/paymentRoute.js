@@ -4,11 +4,11 @@ const Authenticate=require('../middlewares/auth');
 
 const {
   processPayment,
-  getPaymentStatus,
+  checkPaymentStatus ,
 } = require("../controllers/paymentController");
 
 router.post("/pay",Authenticate, processPayment);
-router.get("/payment-status/:orderId",Authenticate, getPaymentStatus);
+router.get("/payment-status/:orderId",Authenticate, checkPaymentStatus );
 
 
 
