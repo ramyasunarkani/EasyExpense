@@ -2,7 +2,7 @@ const { createOrder, getPaymentStatus } = require("../services/cashfreeService")
 const {Payment} = require("../models"); 
 
 
-exports.processPayment = async (req, res) => {
+const processPayment = async (req, res) => {
   try {
     const orderId = "ORDER-" + Date.now();
     const orderAmount = 2000;
@@ -40,7 +40,7 @@ exports.processPayment = async (req, res) => {
 };
 
 
-exports.getPaymentStatus = async (req, res) => {
+const getPaymentStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
     const userId = req.user?._id;
@@ -63,3 +63,6 @@ exports.getPaymentStatus = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch payment status" });
   }
 };
+
+
+module.exports={processPayment,getPaymentStatus};

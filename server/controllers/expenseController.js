@@ -1,4 +1,3 @@
-// controllers/expenseController.js
 const { Expense, User } = require('../models');
 const mongoose = require('mongoose');
 
@@ -9,7 +8,6 @@ const AddExpense = async (req, res) => {
   try {
     const { category, amount, description } = req.body;
 
-    // Create new expense
     const newExpense = await Expense.create(
       [
         {
@@ -22,7 +20,6 @@ const AddExpense = async (req, res) => {
       { session }
     );
 
-    // Increment totalExpenses in user document
     await User.findByIdAndUpdate(
       req.user._id,
       { $inc: { totalExpenses: amount } },
@@ -51,7 +48,6 @@ const DeleteExpense = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find expense
     const expenseToDelete = await Expense.findOne({
       _id: id,
       userId: req.user._id,
@@ -63,10 +59,8 @@ const DeleteExpense = async (req, res) => {
       return res.status(404).json({ message: 'Expense not found' });
     }
 
-    // Delete expense
     await Expense.deleteOne({ _id: id }).session(session);
 
-    // Decrement totalExpenses
     await User.findByIdAndUpdate(
       req.user._id,
       { $inc: { totalExpenses: -expenseToDelete.amount } },
@@ -127,7 +121,7 @@ const ReportExpenses = async (req, res) => {
         break;
       case 'weekly':
         startDate = new Date(today);
-        startDate.setDate(today.getDate() - today.getDay()); // Sunday as start
+        startDate.setDate(today.getDate() - today.getDay()); 
         break;
       case 'monthly':
         startDate = new Date(today.getFullYear(), today.getMonth(), 1);
